@@ -41,7 +41,8 @@ export const metadata: Metadata = {
     "UI/UX",
     "JavaScript",
     "TypeScript",
-    "responsive design",
+    "Responsive design",
+    "hello"
   ],
   authors: [
     {
