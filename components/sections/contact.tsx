@@ -40,7 +40,7 @@ export default function Contact() {
           </h2>
 
           <p className="text-[#71717A] text-lg max-w-xl mx-auto mb-12 leading-relaxed">
-If something here resonates, let's talk. Currently based in Bengaluru, India.
+            {"If something here resonates, let's talk. Currently based in Bengaluru, India."}
           </p>
 
           <motion.a

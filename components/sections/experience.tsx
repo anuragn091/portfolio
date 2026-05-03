@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { fadeUp, stagger, viewportConfig } from "@/lib/motion";
 import SectionHeading from "@/components/ui/section-heading";
+import { fadeUp, stagger, viewportConfig } from "@/lib/motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
+import { useState } from "react";
 
 const experiences = [
   {
