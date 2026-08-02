@@ -50,9 +50,7 @@ export default function Nav() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#F97316] to-[#FBBF24] flex items-center justify-center font-bold text-sm text-black">
-              AN
-            </div>
+            <img src="/logo.png" alt="AN" className="w-8 h-8 rounded-lg object-cover" />
             <span className="font-bold text-sm text-white/80 group-hover:text-white transition-colors hidden sm:block">
               anurag nigam
             </span>

@@ -42,9 +42,7 @@ export default function InvestorOSPost() {
             className="flex items-center gap-2 text-sm text-[#71717A] hover:text-white transition-colors"
           >
             <ArrowLeft size={16} />
-            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-[#F97316] to-[#FBBF24] flex items-center justify-center font-bold text-[10px] text-black">
-              AN
-            </div>
+            <img src="/logo.png" alt="AN" className="w-6 h-6 rounded-md object-cover" />
             <span className="font-medium">All posts</span>
           </Link>
           <span className="text-xs font-mono text-[#52525B]">writing</span>
