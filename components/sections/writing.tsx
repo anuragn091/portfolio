@@ -3,22 +3,28 @@
 import { motion } from "framer-motion";
 import { fadeUp, stagger, viewportConfig } from "@/lib/motion";
 import SectionHeading from "@/components/ui/section-heading";
-import { ArrowRight, Clock, ExternalLink } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import { posts, formatPostDate, type ExternalPost } from "@/lib/posts";
-import { GitHubIcon } from "@/components/icons";
 import Link from "next/link";
 
 function SourceBadge({ source }: { source: ExternalPost["source"] }) {
-  if (source === "medium") {
+  if (source === "linkedin") {
     return (
-      <span className="flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-[#71717A]">
-        Medium
+      <span className="flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#0A66C2]/10 border border-[#0A66C2]/20 text-[#0A66C2]">
+        LinkedIn
+      </span>
+    );
+  }
+  if (source === "native") {
+    return (
+      <span className="flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#F97316]/10 border border-[#F97316]/20 text-[#F97316]">
+        Original
       </span>
     );
   }
   return (
-    <span className="flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#0A66C2]/10 border border-[#0A66C2]/20 text-[#0A66C2]">
-      LinkedIn
+    <span className="flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-[#71717A]">
+      Medium
     </span>
   );
 }
@@ -56,6 +62,41 @@ export default function Writing() {
         >
           {posts.map((post) => (
             <motion.div key={post.url} variants={fadeUp}>
+              {post.source === "native" ? (
+              <Link
+                href={post.url}
+                className="block h-full glass rounded-2xl p-6 group hover:border-[#F97316]/15 transition-all duration-300"
+                style={{ boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.3)" }}
+              >
+                {/* Tags + source */}
+                <div className="flex flex-wrap items-center gap-1.5 mb-4">
+                  {post.tags.slice(0, 2).map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-[#F97316]/10 text-[#F97316] border border-[#F97316]/15"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                  <SourceBadge source={post.source} />
+                </div>
+
+                <h3 className="text-white font-bold text-base leading-snug mb-3 group-hover:text-[#F97316] transition-colors line-clamp-2">
+                  {post.title}
+                </h3>
+                <p className="text-[#71717A] text-sm leading-relaxed mb-5 line-clamp-3">
+                  {post.summary}
+                </p>
+
+                <div className="flex items-center justify-between pt-4 border-t border-white/[0.05]">
+                  <span className="text-xs text-[#52525B] font-mono">{formatPostDate(post.date)}</span>
+                  <span className="flex items-center gap-1 text-xs text-[#52525B]">
+                    <Clock size={11} />
+                    {post.readingTime} min read
+                  </span>
+                </div>
+              </Link>
+              ) : (
               <a
                 href={post.url}
                 target="_blank"
@@ -91,6 +132,7 @@ export default function Writing() {
                   </span>
                 </div>
               </a>
+              )}
             </motion.div>
           ))}
         </motion.div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Cursor from "@/components/cursor";
 
 export const metadata: Metadata = {
   title: "Anurag Nigam | Software Engineer",
@@ -37,6 +38,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="bg-[#09090B] text-[#F4F4F5] font-sans antialiased">
+        <Cursor />
         {children}
       </body>
     </html>

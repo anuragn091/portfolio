@@ -1,16 +1,28 @@
-export type PostSource = "medium" | "linkedin";
+export type PostSource = "medium" | "linkedin" | "native";
 
 export interface ExternalPost {
   title: string;
   summary: string;
   date: string;
   url: string;
+  slug?: string;
   tags: string[];
   readingTime: number;
   source: PostSource;
 }
 
 export const posts: ExternalPost[] = [
+  {
+    title: "Building My Investor Operating System",
+    summary:
+      "I have always been curious about investing, private equity, and venture capital, so I decided to turn that curiosity into a small experiment. I built an AI research desk, ran its first analysis, and chose ICICI Bank as the first live test. More to come.",
+    date: "2026-08-02",
+    url: "/blog/building-my-investor-operating-system",
+    slug: "building-my-investor-operating-system",
+    tags: ["AI", "Investing", "Building"],
+    readingTime: 6,
+    source: "native",
+  },
   {
     title: "React: Diffing Algorithm, Keys and Why You Should Not Use Index as Key",
     summary:
