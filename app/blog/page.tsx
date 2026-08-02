@@ -4,7 +4,7 @@ import { posts, formatPostDate } from "@/lib/posts";
 
 export const metadata = {
   title: "Blog | Anurag Nigam",
-  description: "Writing about frontend engineering, performance optimization, and building at scale.",
+  description: "Writing about engineering, markets, and things I am building.",
 };
 
 export default function BlogPage() {
@@ -35,10 +35,10 @@ export default function BlogPage() {
             Blog
           </span>
           <h1 className="text-4xl sm:text-5xl font-extrabold text-white mb-4">
-            Thoughts on engineering
+            Thoughts on building
           </h1>
           <p className="text-[#71717A] text-lg">
-            Writing about frontend architecture, performance, and the craft of building at scale.
+            Writing about engineering, markets, and things I am building.
           </p>
         </div>
 
@@ -46,11 +46,22 @@ export default function BlogPage() {
           {posts.map((post) => {
             const isNative = post.source === "native";
             const cardClass =
-              "flex items-start justify-between gap-4 glass rounded-2xl p-6 group hover:border-[#F97316]/20 transition-all duration-300";
+              "block glass rounded-2xl overflow-hidden group hover:border-[#F97316]/20 transition-all duration-300";
             const cardStyle = { boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.3)" };
 
             const inner = (
               <>
+                {post.image && (
+                  <div className="w-full h-48 overflow-hidden">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div className="flex items-start justify-between gap-4 p-6">
                 <div className="flex-1 min-w-0">
                   <div className="flex flex-wrap items-center gap-1.5 mb-3">
                     {post.tags.slice(0, 3).map((tag) => (
@@ -95,6 +106,7 @@ export default function BlogPage() {
                     className="text-[#3F3F46] group-hover:text-[#F97316] transition-colors flex-shrink-0 mt-1"
                   />
                 )}
+                </div>
               </>
             );
 

@@ -6,6 +6,7 @@ export interface ExternalPost {
   date: string;
   url: string;
   slug?: string;
+  image?: string;
   tags: string[];
   readingTime: number;
   source: PostSource;
@@ -19,6 +20,7 @@ export const posts: ExternalPost[] = [
     date: "2026-08-02",
     url: "/blog/building-my-investor-operating-system",
     slug: "building-my-investor-operating-system",
+    image: "https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large",
     tags: ["AI", "Investing", "Building"],
     readingTime: 6,
     source: "native",
