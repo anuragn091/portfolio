@@ -11,8 +11,8 @@ const row1 = [
 ];
 
 const row2 = [
-  "AWS", "Figma", "PostgreSQL", "MongoDB", "Firebase", "Docker",
-  "Jest", "Datadog", "Git", "REST APIs", "GraphQL", "Vercel",
+  "Claude", "OpenAI", "AI Agents", "LLM integrations", "Cursor", "Prompt Engineering",
+  "AWS", "Figma", "PostgreSQL", "MongoDB", "Jest", "Datadog",
 ];
 
 const categories = [
@@ -25,6 +25,11 @@ const categories = [
     name: "Backend & Infra",
     skills: ["Node.js", "Express.js", "AWS (EC2, S3, Lambda)", "PostgreSQL", "MongoDB", "Firebase", "REST APIs"],
     color: "#10B981",
+  },
+  {
+    name: "AI & LLM",
+    skills: ["Claude", "Claude Code", "ChatGPT", "OpenAI", "Codex", "AI Agents", "Agent Skills", "Prompt Engineering", "RAG", "MCP", "Agentic Workflows"],
+    color: "#F59E0B",
   },
   {
     name: "Tools & Process",
@@ -40,7 +45,7 @@ const categories = [
 
 export default function Skills() {
   return (
-    <section id="skills" className="relative py-28 bg-[#0A0A0F] overflow-hidden">
+    <section id="skills" className="relative py-20 bg-[#0A0A0F] overflow-hidden">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div className="max-w-6xl mx-auto px-6">
@@ -67,7 +72,7 @@ export default function Skills() {
             hidden: {},
             visible: { transition: { staggerChildren: 0.1 } },
           }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
         >
           {categories.map((cat) => (
             <motion.div

@@ -14,6 +14,18 @@ export interface ExternalPost {
 
 export const posts: ExternalPost[] = [
   {
+    title: "An Articulate Coin Flip, or Something Better",
+    summary:
+      "I asked my AI if I should buy gold. It gave me entry, stop, and target. Then I asked what it just did. That question led to a method, a logged experiment, and a six-month public scorecard.",
+    date: "2026-08-10",
+    url: "/blog/an-articulate-coin-flip",
+    slug: "an-articulate-coin-flip",
+    image: "/blog-algo-trading.png",
+    tags: ["AI", "Investing", "Trading"],
+    readingTime: 5,
+    source: "native",
+  },
+  {
     title: "Building My Investor Operating System",
     summary:
       "I have always been curious about investing, private equity, and venture capital, so I decided to turn that curiosity into a small experiment. I built an AI research desk, ran its first analysis, and chose ICICI Bank as the first live test. More to come.",

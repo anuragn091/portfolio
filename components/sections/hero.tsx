@@ -6,10 +6,12 @@ import { ArrowDown, Mail } from "lucide-react";
 import { GitHubIcon, LinkedInIcon } from "@/components/icons";
 
 const ROLES = [
-  "Software Engineer",
-  "Frontend Specialist",
+  "Software Development Engineer II",
+  "AI Engineer",
+  "SDE-2 at SpotDraft",
+  "AI Agent Builder",
+  "Full Stack Developer",
   "Performance Engineer",
-  "UI Systems Builder",
 ];
 
 function useTypewriter(words: string[], speed = 80, pause = 2000) {
@@ -231,7 +233,7 @@ export default function Hero() {
   }, [prefersReduced]);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-[#09090B]">
+    <section className="relative min-h-[85vh] flex flex-col overflow-hidden bg-[#09090B]">
       {/* Layered backgrounds */}
       <AmbientOrbs />
       {tier === "mid" && <ParticleBackground />}
@@ -250,7 +252,8 @@ export default function Hero() {
         }}
       />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-32 pt-40">
+      <div className="relative z-10 flex-1 flex items-center w-full">
+        <div className="max-w-6xl mx-auto px-6 pt-32 pb-8 w-full">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -266,7 +269,7 @@ export default function Hero() {
           >
             <span className="w-8 h-[2px] bg-[#F97316]" />
             <span className="text-[#F97316] text-sm font-semibold tracking-widest uppercase font-mono">
-              Software Engineer
+              Software &amp; AI Engineer
             </span>
           </motion.div>
 
@@ -296,10 +299,10 @@ export default function Hero() {
             variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
             className="text-[#71717A] text-lg sm:text-xl max-w-xl leading-relaxed mb-12"
           >
-            I build web experiences that are{" "}
-            <span className="text-white font-medium">fast</span>,{" "}
-            <span className="text-white font-medium">elegant</span>, and{" "}
-            <span className="text-white font-medium">production-hardened</span>. 3.5+ years shipping at scale.
+            I build{" "}
+            <span className="text-white font-medium">web applications</span>,{" "}
+            <span className="text-white font-medium">AI agents</span>, and{" "}
+            <span className="text-white font-medium">AI-powered tools</span> that are fast, elegant, and production-hardened. 4 years shipping at scale.
           </motion.p>
 
           {/* CTAs */}
@@ -351,14 +354,15 @@ export default function Hero() {
             <span className="text-xs text-[#52525B] font-mono">Bengaluru, IN</span>
           </motion.div>
         </motion.div>
+        </div>
       </div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator - in flow at bottom, no dead gap */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[#52525B]"
+        className="relative z-10 pb-8 flex flex-col items-center gap-2 text-[#52525B]"
       >
         <span className="text-xs font-mono tracking-wider uppercase">scroll</span>
         <motion.div

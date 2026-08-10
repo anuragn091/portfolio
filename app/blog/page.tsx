@@ -5,6 +5,23 @@ import { posts, formatPostDate } from "@/lib/posts";
 export const metadata = {
   title: "Blog | Anurag Nigam",
   description: "Writing about engineering, markets, and things I am building.",
+  openGraph: {
+    title: "Blog | Anurag Nigam",
+    description: "Writing about engineering, markets, and things I am building.",
+    type: "website",
+    url: "https://anuragnigam.in/blog",
+    siteName: "Anurag Nigam",
+    images: [{ url: "https://anuragnigam.in/logo.png", width: 1200, height: 630, alt: "Anurag Nigam - Blog" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@anuragnigam_",
+    creator: "@anuragnigam_",
+    title: "Blog | Anurag Nigam",
+    description: "Writing about engineering, markets, and things I am building.",
+    images: ["https://anuragnigam.in/logo.png"],
+  },
+  alternates: { canonical: "https://anuragnigam.in/blog" },
 };
 
 export default function BlogPage() {

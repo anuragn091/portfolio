@@ -191,7 +191,7 @@ function ProjectCard({ project, index }: { project: (typeof projects)[0]; index:
 
 export default function Projects() {
   return (
-    <section id="projects" className="relative py-28 bg-[#09090B]">
+    <section id="projects" className="relative py-20 bg-[#09090B]">
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
       <div className="max-w-6xl mx-auto px-6">

@@ -6,15 +6,16 @@ import SectionHeading from "@/components/ui/section-heading";
 import AnimatedCounter from "@/components/ui/animated-counter";
 
 const stats = [
-  { value: 3, suffix: ".5+", label: "Years experience", prefix: "" },
+  { value: 4, suffix: "+", label: "Years experience", prefix: "" },
   { value: 400, suffix: "+", label: "Hospitals impacted", prefix: "" },
   { value: 10, suffix: "+", label: "Features shipped", prefix: "" },
   { value: 99, suffix: "%", label: "Latency reduction", prefix: "" },
 ];
 
 const facts = [
-  "Currently at SpotDraft building complex legal-tech UI systems",
+  "Software Development Engineer II at SpotDraft, promoted July 2026 - building complex legal-tech UI systems",
   "Previously founding engineer at Janitri, building real-time labor monitoring for hospitals",
+  "Building AI agents and LLM-powered tools for investing, research, and automation",
   "Obsessed with performance: dependency graphs, memoization, topological sorting",
   "B.Tech ECE, Ramaiah University, Bangalore (CGPA 8.29)",
   "Working on billion-dollar ideas on weekends 🚀",
@@ -22,7 +23,7 @@ const facts = [
 
 export default function About() {
   return (
-    <section id="about" className="relative py-28 bg-[#09090B]">
+    <section id="about" className="relative pt-16 pb-20 bg-[#09090B]">
       <div className="max-w-6xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left: text */}
@@ -122,7 +123,7 @@ export default function About() {
                 Primary stack
               </p>
               <div className="flex flex-wrap gap-2">
-                {["React", "TypeScript", "Next.js", "Node.js", "AWS", "Figma", "Redux", "React Query"].map(
+                {["Angular", "React", "TypeScript", "Next.js", "Node.js", "AI Agents", "LLMs", "AWS"].map(
                   (tech) => (
                     <span
                       key={tech}
