@@ -157,9 +157,12 @@ function WebGLBackground() {
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       rafRef.current = requestAnimationFrame(render);
     };
-    rafRef.current = requestAnimationFrame(render);
+    const startTimeout = setTimeout(() => {
+      rafRef.current = requestAnimationFrame(render);
+    }, 200);
 
     return () => {
+      clearTimeout(startTimeout);
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", resize);
     };
@@ -204,9 +207,9 @@ function ParticleBackground() {
       });
       rafRef.current = requestAnimationFrame(render);
     };
-    rafRef.current = requestAnimationFrame(render);
+    const t = setTimeout(() => { rafRef.current = requestAnimationFrame(render); }, 200);
 
-    return () => { cancelAnimationFrame(rafRef.current); window.removeEventListener("resize", resize); };
+    return () => { clearTimeout(t); cancelAnimationFrame(rafRef.current); window.removeEventListener("resize", resize); };
   }, []);
 
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />;
@@ -259,7 +262,7 @@ export default function Hero() {
           animate="visible"
           variants={{
             hidden: {},
-            visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+            visible: { transition: { staggerChildren: 0.07, delayChildren: 0.05 } },
           }}
         >
           {/* Eyebrow */}
