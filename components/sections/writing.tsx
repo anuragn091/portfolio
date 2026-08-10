@@ -6,6 +6,7 @@ import SectionHeading from "@/components/ui/section-heading";
 import { ArrowRight, Clock } from "lucide-react";
 import { posts, formatPostDate, type ExternalPost } from "@/lib/posts";
 import Link from "next/link";
+import Image from "next/image";
 
 function SourceBadge({ source }: { source: ExternalPost["source"] }) {
   if (source === "linkedin") {
@@ -69,12 +70,13 @@ export default function Writing() {
                 style={{ boxShadow: "0 0 0 1px rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.3)" }}
               >
                 {post.image && (
-                  <div className="w-full h-40 overflow-hidden">
-                    <img
+                  <div className="relative w-full h-40 overflow-hidden">
+                    <Image
                       src={post.image}
                       alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                   </div>
                 )}

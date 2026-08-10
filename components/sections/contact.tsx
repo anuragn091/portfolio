@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { fadeUp, viewportConfig } from "@/lib/motion";
 import { Mail } from "lucide-react";
+import Image from "next/image";
 import { GitHubIcon, LinkedInIcon, TwitterXIcon } from "@/components/icons";
 
 const links = [
@@ -77,7 +78,7 @@ export default function Contact() {
       <div className="mt-20 pt-8 border-t border-white/[0.05] max-w-6xl mx-auto px-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <img src="/logo.png" alt="AN" className="w-6 h-6 rounded-md object-cover" />
+            <Image src="/logo.png" alt="AN" width={24} height={24} className="rounded-md object-cover" />
             <span className="text-xs text-[#52525B] font-mono">Anurag Nigam</span>
           </div>
           <p className="text-xs text-[#3F3F46] font-mono text-center">

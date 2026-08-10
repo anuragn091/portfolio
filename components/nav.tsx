@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/cn";
+import Image from "next/image";
 
 const links = [
   { label: "About", href: "#about" },
@@ -50,7 +51,7 @@ export default function Nav() {
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
           >
-            <img src="/logo.png" alt="AN" className="w-8 h-8 rounded-lg object-cover" />
+            <Image src="/logo.png" alt="AN" width={32} height={32} className="rounded-lg object-cover" priority />
             <span className="font-bold text-sm text-white/80 group-hover:text-white transition-colors hidden sm:block">
               anurag nigam
             </span>
