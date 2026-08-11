@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s | Anurag Nigam",
   },
   description:
-    "Anurag Nigam is a Software Development Engineer II at SpotDraft in Bengaluru, India. He builds scalable web systems, AI agents, and AI-powered products using Angular, React, Next.js, TypeScript, and LLMs.",
+    "Anurag Nigam is a Software Development Engineer II at SpotDraft in Bengaluru, India, with 4+ years of experience building scalable web systems, AI agents, and AI-powered products using Angular, React, Next.js, TypeScript, and LLMs.",
   keywords: [
     "Anurag Nigam",
     "Software Engineer",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     url: "https://anuragnigam.in",
     title: "Anurag Nigam | SDE II at SpotDraft | AI & Software Engineer",
     description:
-      "Anurag Nigam is a Software Development Engineer II at SpotDraft in Bengaluru, building scalable web systems and AI-powered products.",
+      "Anurag Nigam is a Software Development Engineer II at SpotDraft in Bengaluru with 4+ years of experience building scalable web systems and AI-powered products.",
     siteName: "Anurag Nigam",
     images: [
       {
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     creator: "@anuragnigam_",
     title: "Anurag Nigam | SDE II at SpotDraft | AI & Software Engineer",
     description:
-      "Anurag Nigam is a Software Development Engineer II at SpotDraft in Bengaluru, building scalable web systems and AI-powered products.",
+      "Anurag Nigam is a Software Development Engineer II at SpotDraft in Bengaluru with 4+ years of experience building scalable web systems and AI-powered products.",
     images: ["https://anuragnigam.in/logo.png"],
   },
   robots: { index: true, follow: true },

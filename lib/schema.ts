@@ -27,7 +27,7 @@ export const profilePageSchema = {
     url: `${SITE_URL}/`,
     image: `${SITE_URL}/avatar.png`,
     description:
-      "Software Development Engineer II at SpotDraft. Software and AI engineer based in Bengaluru, India.",
+      "Software Development Engineer II at SpotDraft with 4+ years of experience building software and AI products. Based in Bengaluru, India.",
     jobTitle: "Software Development Engineer II",
     worksFor: {
       "@type": "Organization",

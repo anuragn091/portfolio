@@ -93,8 +93,8 @@ export default function BlogPostLayout({
             <div>
               <p className="font-semibold text-white">Anurag Nigam</p>
               <p className="mt-1 text-sm text-[#A1A1AA]">
-                Software Development Engineer II at SpotDraft. I write about software engineering,
-                AI systems, markets, and things I build.
+                Software Development Engineer II at SpotDraft with 4+ years of experience. I write
+                about software engineering, AI systems, markets, and things I build.
               </p>
               <Link href="/" className="mt-2 inline-block text-sm text-[#F97316] hover:text-[#FB923C]">
                 About Anurag Nigam →
