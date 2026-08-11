@@ -3,6 +3,9 @@ import { posts } from "@/lib/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://anuragnigam.in";
+  const latestPostDate = new Date(
+    Math.max(...posts.map((post) => new Date(post.date).getTime())),
+  );
 
   const nativePosts = posts
     .filter((p) => p.source === "native" && p.slug)
@@ -16,13 +19,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
-      lastModified: new Date(),
+      lastModified: latestPostDate,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
       url: `${baseUrl}/blog`,
-      lastModified: new Date(),
+      lastModified: latestPostDate,
       changeFrequency: "weekly",
       priority: 0.9,
     },

@@ -1,9 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Clock, ExternalLink } from "lucide-react";
 import { posts, formatPostDate } from "@/lib/posts";
+import { AUTHOR_ID } from "@/lib/schema";
 
-export const metadata = {
-  title: "Blog | Anurag Nigam",
+export const metadata: Metadata = {
+  title: "Blog",
   description: "Writing about engineering, markets, and things I am building.",
   openGraph: {
     title: "Blog | Anurag Nigam",
@@ -21,12 +24,38 @@ export const metadata = {
     description: "Writing about engineering, markets, and things I am building.",
     images: ["https://anuragnigam.in/logo.png"],
   },
-  alternates: { canonical: "https://anuragnigam.in/blog" },
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage() {
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Anurag Nigam's Blog",
+    description: "Writing about engineering, markets, and things I am building.",
+    url: "https://anuragnigam.in/blog",
+    author: {
+      "@type": "Person",
+      "@id": AUTHOR_ID,
+      name: "Anurag Nigam",
+      url: "https://anuragnigam.in",
+    },
+    hasPart: posts
+      .filter((post) => post.source === "native")
+      .map((post) => ({
+        "@type": "BlogPosting",
+        headline: post.title,
+        url: `https://anuragnigam.in${post.url}`,
+        datePublished: post.date,
+      })),
+  };
+
   return (
     <div className="min-h-screen bg-[#09090B]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
       {/* Header */}
       <div className="border-b border-white/[0.06] sticky top-0 bg-[#09090B]/80 backdrop-blur-xl z-40">
         <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -35,7 +64,7 @@ export default function BlogPage() {
             className="flex items-center gap-2 text-sm text-[#71717A] hover:text-white transition-colors"
           >
             <ArrowLeft size={16} />
-            <img src="/logo.png" alt="AN" className="w-6 h-6 rounded-md object-cover" />
+            <Image src="/logo.png" alt="AN" width={24} height={24} className="rounded-md object-cover" />
             <span className="font-medium">Anurag Nigam</span>
           </Link>
           <span className="text-xs font-mono text-[#52525B]">writing</span>
@@ -58,7 +87,7 @@ export default function BlogPage() {
         </div>
 
         <div className="space-y-4">
-          {posts.map((post) => {
+          {posts.map((post, index) => {
             const isNative = post.source === "native";
             const cardClass =
               "block glass rounded-2xl overflow-hidden group hover:border-[#F97316]/20 transition-all duration-300";
@@ -67,12 +96,14 @@ export default function BlogPage() {
             const inner = (
               <>
                 {post.image && (
-                  <div className="w-full h-48 overflow-hidden">
-                    <img
+                  <div className="relative w-full h-48 overflow-hidden">
+                    <Image
                       src={post.image}
                       alt={post.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 768px"
+                      priority={index === 0}
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
                 )}
