@@ -1,3 +1,5 @@
+import { nativeBlogPosts } from "@/lib/blog-posts";
+
 export type PostSource = "medium" | "linkedin" | "native";
 
 export interface ExternalPost {
@@ -12,31 +14,20 @@ export interface ExternalPost {
   source: PostSource;
 }
 
+const nativePosts: ExternalPost[] = Object.values(nativeBlogPosts).map((post) => ({
+  title: post.title,
+  summary: post.summary,
+  date: post.date,
+  url: `/blog/${post.slug}`,
+  slug: post.slug,
+  image: post.image,
+  tags: post.tags,
+  readingTime: post.readingTime,
+  source: "native",
+}));
+
 export const posts: ExternalPost[] = [
-  {
-    title: "An Articulate Coin Flip, or Something Better",
-    summary:
-      "I asked my AI if I should buy gold. It gave me entry, stop, and target. Then I asked what it just did. That question led to a method, a logged experiment, and a six-month public scorecard.",
-    date: "2026-08-10",
-    url: "/blog/an-articulate-coin-flip",
-    slug: "an-articulate-coin-flip",
-    image: "/blog-algo-trading.png",
-    tags: ["AI", "Investing", "Trading"],
-    readingTime: 5,
-    source: "native",
-  },
-  {
-    title: "Building My Investor Operating System",
-    summary:
-      "I have always been curious about investing, private equity, and venture capital, so I decided to turn that curiosity into a small experiment. I built an AI research desk, ran its first analysis, and chose ICICI Bank as the first live test. More to come.",
-    date: "2026-08-02",
-    url: "/blog/building-my-investor-operating-system",
-    slug: "building-my-investor-operating-system",
-    image: "https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large",
-    tags: ["AI", "Investing", "Building"],
-    readingTime: 6,
-    source: "native",
-  },
+  ...nativePosts,
   {
     title: "React: Diffing Algorithm, Keys and Why You Should Not Use Index as Key",
     summary:
