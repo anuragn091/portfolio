@@ -1,26 +1,32 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Clock } from "lucide-react";
+import BlogAuthor from "@/components/blog-author";
+import { createBlogPostingSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "Building My Investor Operating System | Anurag Nigam",
-  description:
-    "I have always been curious about investing, so I decided to turn that curiosity into an experiment. I built an AI research desk, ran its first analysis, and chose ICICI Bank as the first live test.",
+const title = "Building My Investor Operating System";
+const description =
+  "I built an AI research desk to research markets, analyse companies, evaluate risk, challenge conclusions, and test investment ideas.";
+const publishedAt = "2026-08-02T00:00:00+05:30";
+
+export const metadata: Metadata = {
+  title,
+  description,
   openGraph: {
-    title: "Building My Investor Operating System",
-    description:
-      "I have always been curious about investing, so I decided to turn that curiosity into an experiment. I built an AI research desk, ran its first analysis, and chose ICICI Bank as the first live test.",
+    title,
+    description,
     type: "article",
     url: "https://anuragnigam.in/blog/building-my-investor-operating-system",
-    publishedTime: "2026-08-02T00:00:00.000Z",
-    modifiedTime: "2026-08-02T00:00:00.000Z",
+    publishedTime: publishedAt,
+    modifiedTime: publishedAt,
     authors: ["Anurag Nigam"],
     images: [
       {
         url: "https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large",
         width: 1200,
         height: 630,
-        alt: "Building My Investor Operating System - AI research desk",
+        alt: "Building My Investor Operating System by Anurag Nigam",
       },
     ],
   },
@@ -28,30 +34,25 @@ export const metadata = {
     card: "summary_large_image",
     site: "@anuragnigam_",
     creator: "@anuragnigam_",
-    title: "Building My Investor Operating System",
-    description:
-      "I have always been curious about investing, so I decided to turn that curiosity into an experiment. I built an AI research desk, ran its first analysis, and chose ICICI Bank as the first live test.",
+    title,
+    description,
     images: ["https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large"],
   },
   alternates: {
-    canonical: "https://anuragnigam.in/blog/building-my-investor-operating-system",
+    canonical: "/blog/building-my-investor-operating-system",
   },
   authors: [{ name: "Anurag Nigam", url: "https://anuragnigam.in" }],
 };
 
-export default function InvestorOSPost() {
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: "Building My Investor Operating System",
-    description: metadata.description,
-    image: "https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large",
-    datePublished: "2026-08-02",
-    dateModified: "2026-08-02",
-    author: { "@type": "Person", name: "Anurag Nigam", url: "https://anuragnigam.in" },
-    mainEntityOfPage: "https://anuragnigam.in/blog/building-my-investor-operating-system",
-  };
+const articleSchema = createBlogPostingSchema({
+  title,
+  description,
+  slug: "building-my-investor-operating-system",
+  image: "https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large",
+  publishedAt,
+});
 
+export default function InvestorOSPost() {
   return (
     <div className="min-h-screen bg-[#09090B]">
       <script
@@ -62,14 +63,19 @@ export default function InvestorOSPost() {
       <div className="border-b border-white/[0.06] sticky top-0 bg-[#09090B]/80 backdrop-blur-xl z-40">
         <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link
-            href="/blog"
+            href="/"
             className="flex items-center gap-2 text-sm text-[#71717A] hover:text-white transition-colors"
           >
             <ArrowLeft size={16} />
             <Image src="/logo.png" alt="AN" width={24} height={24} className="rounded-md object-cover" />
-            <span className="font-medium">All posts</span>
+            <span>
+              <span className="block font-medium text-white">Anurag Nigam</span>
+              <span className="block text-[10px]">Software &amp; AI Engineer</span>
+            </span>
           </Link>
-          <span className="text-xs font-mono text-[#52525B]">writing</span>
+          <Link href="/blog" className="text-xs font-mono text-[#71717A] hover:text-white">
+            All posts
+          </Link>
         </div>
       </div>
 
@@ -287,6 +293,7 @@ export default function InvestorOSPost() {
           Disclaimer: This is a personal learning experiment, not financial advice. The research and
           conclusions may be wrong.
         </p>
+        <BlogAuthor />
       </article>
     </div>
   );

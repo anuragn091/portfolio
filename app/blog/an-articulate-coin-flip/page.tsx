@@ -1,11 +1,19 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Clock } from "lucide-react";
+import BlogAuthor from "@/components/blog-author";
+import { createBlogPostingSchema } from "@/lib/schema";
 
-export const metadata = {
-  title: "An Articulate Coin Flip, or Something Better | Anurag Nigam",
+const title = "An Articulate Coin Flip, or Something Better";
+const description =
+  "I asked my AI if I should buy gold. It gave me entry, stop, and target. Then I asked what it just did. That question led to a method, a logged experiment, and a six-month public scorecard.";
+const publishedAt = "2026-08-10T00:00:00+05:30";
+
+export const metadata: Metadata = {
+  title,
   description:
-    "I asked my AI if I should buy gold. It gave me entry, stop, and target. Then I asked what it just did. That question led to a method, a logged experiment, and a six-month public scorecard.",
+    description,
   keywords: [
     "algo trading",
     "algorithmic trading",
@@ -21,20 +29,19 @@ export const metadata = {
     "AI financial analysis",
   ],
   openGraph: {
-    title: "An Articulate Coin Flip, or Something Better",
-    description:
-      "I asked my AI if I should buy gold. It gave me entry, stop, and target. Then I asked what it just did. That question led to a method, a logged experiment, and a six-month public scorecard.",
+    title,
+    description,
     type: "article",
     url: "https://anuragnigam.in/blog/an-articulate-coin-flip",
-    publishedTime: "2026-08-10T00:00:00.000Z",
-    modifiedTime: "2026-08-10T00:00:00.000Z",
+    publishedTime: publishedAt,
+    modifiedTime: publishedAt,
     authors: ["Anurag Nigam"],
     images: [
       {
         url: "https://anuragnigam.in/blog-algo-trading.png",
         width: 1200,
         height: 630,
-        alt: "AI vs algo trading - an experiment in AI-powered investment forecasting",
+        alt: "An Articulate Coin Flip, or Something Better by Anurag Nigam",
       },
     ],
   },
@@ -42,30 +49,26 @@ export const metadata = {
     card: "summary_large_image",
     site: "@anuragnigam_",
     creator: "@anuragnigam_",
-    title: "An Articulate Coin Flip, or Something Better",
+    title,
     description:
       "I asked my AI if I should buy gold. It gave me entry, stop, and target. That question led to a method, a logged experiment, and a six-month public scorecard.",
     images: ["https://anuragnigam.in/blog-algo-trading.png"],
   },
   alternates: {
-    canonical: "https://anuragnigam.in/blog/an-articulate-coin-flip",
+    canonical: "/blog/an-articulate-coin-flip",
   },
   authors: [{ name: "Anurag Nigam", url: "https://anuragnigam.in" }],
 };
 
-export default function ArticulateCoinFlipPost() {
-  const articleSchema = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: "An Articulate Coin Flip, or Something Better",
-    description: metadata.description,
-    image: "https://anuragnigam.in/blog-algo-trading.png",
-    datePublished: "2026-08-10",
-    dateModified: "2026-08-10",
-    author: { "@type": "Person", name: "Anurag Nigam", url: "https://anuragnigam.in" },
-    mainEntityOfPage: "https://anuragnigam.in/blog/an-articulate-coin-flip",
-  };
+const articleSchema = createBlogPostingSchema({
+  title,
+  description,
+  slug: "an-articulate-coin-flip",
+  image: "https://anuragnigam.in/blog-algo-trading.png",
+  publishedAt,
+});
 
+export default function ArticulateCoinFlipPost() {
   return (
     <div className="min-h-screen bg-[#09090B]">
       <script
@@ -76,14 +79,19 @@ export default function ArticulateCoinFlipPost() {
       <div className="border-b border-white/[0.06] sticky top-0 bg-[#09090B]/80 backdrop-blur-xl z-40">
         <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
           <Link
-            href="/blog"
+            href="/"
             className="flex items-center gap-2 text-sm text-[#71717A] hover:text-white transition-colors"
           >
             <ArrowLeft size={16} />
             <Image src="/logo.png" alt="AN" width={24} height={24} className="rounded-md object-cover" />
-            <span className="font-medium">All posts</span>
+            <span>
+              <span className="block font-medium text-white">Anurag Nigam</span>
+              <span className="block text-[10px]">Software &amp; AI Engineer</span>
+            </span>
           </Link>
-          <span className="text-xs font-mono text-[#52525B]">writing</span>
+          <Link href="/blog" className="text-xs font-mono text-[#71717A] hover:text-white">
+            All posts
+          </Link>
         </div>
       </div>
 
@@ -194,6 +202,7 @@ export default function ArticulateCoinFlipPost() {
             calls that go wrong.
           </p>
         </div>
+        <BlogAuthor />
       </article>
     </div>
   );

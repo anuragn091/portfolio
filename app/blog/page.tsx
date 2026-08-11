@@ -1,10 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Clock, ExternalLink } from "lucide-react";
 import { posts, formatPostDate } from "@/lib/posts";
+import { AUTHOR_ID } from "@/lib/schema";
 
-export const metadata = {
-  title: "Blog | Anurag Nigam",
+export const metadata: Metadata = {
+  title: "Blog",
   description: "Writing about engineering, markets, and things I am building.",
   openGraph: {
     title: "Blog | Anurag Nigam",
@@ -22,7 +24,7 @@ export const metadata = {
     description: "Writing about engineering, markets, and things I am building.",
     images: ["https://anuragnigam.in/logo.png"],
   },
-  alternates: { canonical: "https://anuragnigam.in/blog" },
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage() {
@@ -34,6 +36,7 @@ export default function BlogPage() {
     url: "https://anuragnigam.in/blog",
     author: {
       "@type": "Person",
+      "@id": AUTHOR_ID,
       name: "Anurag Nigam",
       url: "https://anuragnigam.in",
     },
