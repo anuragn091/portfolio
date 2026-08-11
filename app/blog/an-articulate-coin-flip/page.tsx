@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Clock } from "lucide-react";
 
 export const metadata = {
@@ -25,6 +26,9 @@ export const metadata = {
       "I asked my AI if I should buy gold. It gave me entry, stop, and target. Then I asked what it just did. That question led to a method, a logged experiment, and a six-month public scorecard.",
     type: "article",
     url: "https://anuragnigam.in/blog/an-articulate-coin-flip",
+    publishedTime: "2026-08-10T00:00:00.000Z",
+    modifiedTime: "2026-08-10T00:00:00.000Z",
+    authors: ["Anurag Nigam"],
     images: [
       {
         url: "https://anuragnigam.in/blog-algo-trading.png",
@@ -43,11 +47,31 @@ export const metadata = {
       "I asked my AI if I should buy gold. It gave me entry, stop, and target. That question led to a method, a logged experiment, and a six-month public scorecard.",
     images: ["https://anuragnigam.in/blog-algo-trading.png"],
   },
+  alternates: {
+    canonical: "https://anuragnigam.in/blog/an-articulate-coin-flip",
+  },
+  authors: [{ name: "Anurag Nigam", url: "https://anuragnigam.in" }],
 };
 
 export default function ArticulateCoinFlipPost() {
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: "An Articulate Coin Flip, or Something Better",
+    description: metadata.description,
+    image: "https://anuragnigam.in/blog-algo-trading.png",
+    datePublished: "2026-08-10",
+    dateModified: "2026-08-10",
+    author: { "@type": "Person", name: "Anurag Nigam", url: "https://anuragnigam.in" },
+    mainEntityOfPage: "https://anuragnigam.in/blog/an-articulate-coin-flip",
+  };
+
   return (
     <div className="min-h-screen bg-[#09090B]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       {/* Header */}
       <div className="border-b border-white/[0.06] sticky top-0 bg-[#09090B]/80 backdrop-blur-xl z-40">
         <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -56,7 +80,7 @@ export default function ArticulateCoinFlipPost() {
             className="flex items-center gap-2 text-sm text-[#71717A] hover:text-white transition-colors"
           >
             <ArrowLeft size={16} />
-            <img src="/logo.png" alt="AN" className="w-6 h-6 rounded-md object-cover" />
+            <Image src="/logo.png" alt="AN" width={24} height={24} className="rounded-md object-cover" />
             <span className="font-medium">All posts</span>
           </Link>
           <span className="text-xs font-mono text-[#52525B]">writing</span>
@@ -93,12 +117,14 @@ export default function ArticulateCoinFlipPost() {
         <div className="h-px bg-white/[0.06] mb-12" />
 
         {/* Hero image */}
-        <div className="mb-12 rounded-2xl overflow-hidden border border-white/[0.06]">
-          <img
+        <div className="relative mb-12 aspect-[1200/630] rounded-2xl overflow-hidden border border-white/[0.06]">
+          <Image
             src="/blog-algo-trading.png"
             alt="Algo Trading - An Articulate Coin Flip"
-            className="w-full object-cover"
-            loading="lazy"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover"
           />
         </div>
 

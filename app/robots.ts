@@ -6,6 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
+    host: "https://anuragnigam.in",
     sitemap: "https://anuragnigam.in/sitemap.xml",
   };
 }

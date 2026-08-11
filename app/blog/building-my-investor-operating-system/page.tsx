@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Clock } from "lucide-react";
 
 export const metadata = {
@@ -11,6 +12,9 @@ export const metadata = {
       "I have always been curious about investing, so I decided to turn that curiosity into an experiment. I built an AI research desk, ran its first analysis, and chose ICICI Bank as the first live test.",
     type: "article",
     url: "https://anuragnigam.in/blog/building-my-investor-operating-system",
+    publishedTime: "2026-08-02T00:00:00.000Z",
+    modifiedTime: "2026-08-02T00:00:00.000Z",
+    authors: ["Anurag Nigam"],
     images: [
       {
         url: "https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large",
@@ -29,11 +33,31 @@ export const metadata = {
       "I have always been curious about investing, so I decided to turn that curiosity into an experiment. I built an AI research desk, ran its first analysis, and chose ICICI Bank as the first live test.",
     images: ["https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large"],
   },
+  alternates: {
+    canonical: "https://anuragnigam.in/blog/building-my-investor-operating-system",
+  },
+  authors: [{ name: "Anurag Nigam", url: "https://anuragnigam.in" }],
 };
 
 export default function InvestorOSPost() {
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: "Building My Investor Operating System",
+    description: metadata.description,
+    image: "https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large",
+    datePublished: "2026-08-02",
+    dateModified: "2026-08-02",
+    author: { "@type": "Person", name: "Anurag Nigam", url: "https://anuragnigam.in" },
+    mainEntityOfPage: "https://anuragnigam.in/blog/building-my-investor-operating-system",
+  };
+
   return (
     <div className="min-h-screen bg-[#09090B]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       {/* Header */}
       <div className="border-b border-white/[0.06] sticky top-0 bg-[#09090B]/80 backdrop-blur-xl z-40">
         <div className="max-w-3xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -42,7 +66,7 @@ export default function InvestorOSPost() {
             className="flex items-center gap-2 text-sm text-[#71717A] hover:text-white transition-colors"
           >
             <ArrowLeft size={16} />
-            <img src="/logo.png" alt="AN" className="w-6 h-6 rounded-md object-cover" />
+            <Image src="/logo.png" alt="AN" width={24} height={24} className="rounded-md object-cover" />
             <span className="font-medium">All posts</span>
           </Link>
           <span className="text-xs font-mono text-[#52525B]">writing</span>
@@ -79,12 +103,14 @@ export default function InvestorOSPost() {
         <div className="h-px bg-white/[0.06] mb-12" />
 
         {/* Hero image */}
-        <div className="mb-12 rounded-2xl overflow-hidden border border-white/[0.06]">
-          <img
+        <div className="relative mb-12 aspect-[1200/630] rounded-2xl overflow-hidden border border-white/[0.06]">
+          <Image
             src="https://pbs.twimg.com/media/HOs1-e7aYAA3ZGd?format=jpg&name=large"
             alt="Investor OS research desk - running the full pipeline"
-            className="w-full object-cover"
-            loading="lazy"
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover"
           />
         </div>
 
@@ -181,12 +207,13 @@ export default function InvestorOSPost() {
         </div>
 
         {/* Image after agent cards */}
-        <div className="mb-8 rounded-2xl overflow-hidden border border-white/[0.06]">
-          <img
+        <div className="relative mb-8 aspect-[16/9] rounded-2xl overflow-hidden border border-white/[0.06]">
+          <Image
             src="https://pbs.twimg.com/media/HOs3Q6HaAAAHwoZ?format=jpg&name=medium"
             alt="Portfolio master view after running all agents"
-            className="w-full object-cover"
-            loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover"
           />
         </div>
 
@@ -219,12 +246,13 @@ export default function InvestorOSPost() {
         </div>
 
         {/* Image after blockquote */}
-        <div className="my-8 rounded-2xl overflow-hidden border border-white/[0.06]">
-          <img
+        <div className="relative my-8 aspect-[16/9] rounded-2xl overflow-hidden border border-white/[0.06]">
+          <Image
             src="https://pbs.twimg.com/media/HOsxl4yaAAAIHgT?format=png&name=large"
             alt="Research output - final rankings and conclusions"
-            className="w-full object-cover"
-            loading="lazy"
+            fill
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover"
           />
         </div>
 
