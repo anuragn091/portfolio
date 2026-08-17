@@ -12,257 +12,392 @@ export default function AngularFormLatencyPost() {
       <div className="prose-dark">
         <p>
           There is a running joke that frontend work is just changing button colours and adding
-          gradients. I used to find it funny. Then I spent a few weeks inside a form that took five
-          seconds to respond to a single keystroke, and the joke stopped being funny and started
-          being a graph problem.
+          gradients. Then you meet a form that takes five seconds to respond to a single keystroke.
         </p>
 
         <p>
-          This is the story of that fix: what the bug looked like, why the obvious diagnosis was
-          wrong, and what it changed about how our team thinks about copying data.
+          This is what that bug looked like, why the first diagnosis was wrong, and what we changed.
         </p>
 
-        <h2>The symptom only existed at scale</h2>
+        <h2>The problem only showed up at scale</h2>
 
         <p>
           The feature was a contract creation flow built around a questionnaire. Users answer
-          questions, and their answers decide which other questions appear. A field asking for a
-          notice period only shows up if the contract has a termination clause. A field asking which
-          jurisdiction applies only shows up if the counterparty is outside India. Multiply that by a
-          few hundred fields and you have a large, deeply conditional form.
+          questions, and their answers decide which other questions appear. One answer can decide
+          whether a whole section appears. That section has questions that decide whether more
+          questions appear. With a few hundred fields, the form becomes deeply conditional.
         </p>
 
         <p>
-          On a small template, everything felt fine. Twenty or thirty fields, instant response, no
-          complaints. The problem only appeared on the templates our largest workspaces actually
-          used, the ones with hundreds of dynamic fields. There, selecting a value from a dropdown or
-          typing into a text input would lock the interface for several seconds. Not a spinner. Not a
-          loading state. Just a window that stopped responding, then caught up all at once.
+          Small templates felt fine. Twenty or thirty fields, instant response, no complaints.
         </p>
 
         <p>
-          That gap between small and large is the part worth paying attention to. The bug was
-          invisible in every environment where it was cheap to look, and obvious in the one place
+          The problem only appeared on the large templates our biggest workspaces actually used, the
+          ones with hundreds of fields. There, picking a value from a dropdown or typing into an
+          input froze the screen for several seconds. No spinner. No loading state. The window just
+          stopped responding, then caught up all at once.
+        </p>
+
+        <p>
+          That gap matters. The bug was invisible everywhere it was cheap to test, and obvious only
           where it was expensive.
         </p>
 
-        <h2>The obvious diagnosis was wrong</h2>
+        <h2>It looked like a slow API. It was not.</h2>
 
         <p>
-          The first assumption, from everyone including me, was that this was network latency. A slow
-          form usually means a slow API, and we had plenty of API calls in that flow.
+          Everyone assumed network latency first, including me. A slow form usually means a slow API,
+          and that flow had plenty of API calls.
         </p>
 
         <p>
-          Profiling said something else entirely. The data had already arrived. The requests had
-          resolved, the payload was in memory, and the browser was sitting on everything it needed.
-          What it was not doing was rendering, because the main thread was fully occupied running our
-          own synchronous code.
+          Profiling said something else. The data had already arrived. The requests were done and the
+          payload was in memory. The browser was not rendering because the main thread was busy
+          running our own synchronous code.
         </p>
 
         <p>
-          This is the single most useful thing I took from the whole exercise. Frontend debugging
-          tends to start and stop at the network tab, because that is where the obvious numbers live.
-          But a request that finishes in 80ms tells you nothing about what happens in the 4 seconds
-          afterwards. Long task analysis and main thread profiling are a different lens, and in this
-          case they were the only lens that showed the actual problem.
+          This is the most useful thing I took from the whole exercise. Frontend debugging usually
+          starts and stops at the network tab, because that is where the obvious numbers are. But a
+          request that finishes in 80ms tells you nothing about the next four seconds. Main thread
+          and long task profiling is a different view, and here it was the only one that showed the
+          real problem.
         </p>
 
-        <h2>The actual cause: recomputing everything, every time</h2>
+        <h2>The cause: recomputing everything, every time</h2>
 
         <p>
-          Once we were looking at the right thing, the cause was not subtle. Every single value
-          change triggered a visibility recomputation across essentially the entire questionnaire.
-        </p>
-
-        <p>
-          Change one dropdown, and the code would walk every field, evaluate every visibility
-          condition, and rebuild the answer. It did not matter that the field you touched only
-          affected three other fields. All several hundred got recomputed anyway, because nothing in
-          the system knew which ones were related.
+          Once we looked in the right place, the cause was not subtle. Every value change recomputed
+          visibility across almost the entire questionnaire.
         </p>
 
         <p>
-          Sitting on top of that was a second cost. The recomputation path did repeated deep cloning
-          of the form state to avoid mutating shared objects. Deep cloning a small object is close to
-          free, so this had never registered as a problem. Deep cloning a large nested structure,
-          hundreds of times, inside the hot path of every keystroke, is a completely different
-          proposition. It burned execution time and it created real memory pressure.
+          Change one dropdown, and the code walked every field, checked every visibility condition,
+          and rebuilt the result. It did not matter that the field you touched only affected three
+          others. All several hundred were recomputed, because nothing in the system knew which
+          fields were related.
         </p>
 
         <p>
-          Neither of these was a bad decision when it was written. Recompute-everything is the
-          simplest correct approach, and it is genuinely the right call until the data outgrows it.
-          The failure was not the original design. It was that nothing forced us to revisit the
-          design when the scale changed.
+          There was a second cost on top. The recompute path deep cloned the form state repeatedly to
+          avoid mutating shared objects. Deep cloning a small object is almost free, so this never
+          looked like a problem. Deep cloning a large nested object hundreds of times, on every
+          keystroke, is not. It burned CPU time and added memory pressure.
+        </p>
+
+        <p>
+          Neither choice was wrong when it was written. Recompute everything is the simplest correct
+          approach, and it works until the data grows past it. The real failure was that nothing made
+          us revisit it when the scale changed.
+        </p>
+
+        <h2>What that looks like with seven questions</h2>
+
+        <p>
+          Real templates had hundreds of fields, which is hard to picture. Here is a simplified
+          version with seven, just to show the shape. Two independent chains: one starts at contract
+          value, the other at counterparty country.
+        </p>
+      </div>
+
+      {/* Example diagram - outside prose-dark to avoid CSS inheritance conflicts */}
+      <div
+        className="my-8 rounded-2xl border border-white/[0.06] p-6"
+        style={{ boxShadow: "0 0 0 1px rgba(255,255,255,0.04)" }}
+      >
+        <p className="mb-5 font-mono text-[11px] uppercase tracking-widest text-[#52525B]">
+          The user changes contract value
+        </p>
+
+        <div className="grid gap-6 sm:grid-cols-2">
+          <div>
+            <p className="mb-3 text-xs font-semibold text-[#F97316]">Chain that depends on it</p>
+            <ul className="space-y-2 text-sm">
+              {[
+                { q: "Contract value", note: "changed", depth: 0 },
+                { q: "Approval required?", note: "must recompute", depth: 1 },
+                { q: "Approver details", note: "must recompute", depth: 2 },
+                { q: "Escalation contact", note: "must recompute", depth: 3 },
+              ].map(({ q, note, depth }) => (
+                <li
+                  key={q}
+                  className="flex items-center gap-2"
+                  style={{ paddingLeft: `${depth * 14}px` }}
+                >
+                  <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#F97316]" />
+                  <span className="text-[#E4E4E7]">{q}</span>
+                  <span className="font-mono text-[10px] text-[#71717A]">{note}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <p className="mb-3 text-xs font-semibold text-[#52525B]">Chain that does not</p>
+            <ul className="space-y-2 text-sm">
+              {[
+                { q: "Counterparty country", depth: 0 },
+                { q: "Tax details", depth: 1 },
+                { q: "Governing law", depth: 1 },
+              ].map(({ q, depth }) => (
+                <li
+                  key={q}
+                  className="flex items-center gap-2"
+                  style={{ paddingLeft: `${depth * 14}px` }}
+                >
+                  <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full border border-[#3F3F46]" />
+                  <span className="text-[#52525B]">{q}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-2 border-t border-white/[0.06] pt-5">
+          {[
+            {
+              stage: "Before",
+              value: "7 of 7",
+              note: "recomputed, on every single interaction",
+              accent: false,
+            },
+            {
+              stage: "After, first pass",
+              value: "3 of 7",
+              note: "reached by the traversal, 4 never visited",
+              accent: false,
+            },
+            {
+              stage: "After, steady state",
+              value: "0 of 7",
+              note: "inputs unchanged, so every read is a cache hit",
+              accent: true,
+            },
+          ].map(({ stage, value, note, accent }) => (
+            <div
+              key={stage}
+              className={`flex flex-wrap items-baseline gap-x-3 gap-y-1 rounded-lg border px-4 py-3 ${
+                accent
+                  ? "border-[#F97316]/15 bg-[#F97316]/[0.08]"
+                  : "border-white/[0.06] bg-white/[0.02]"
+              }`}
+            >
+              <span className="w-40 font-mono text-[10px] uppercase tracking-wide text-[#52525B]">
+                {stage}
+              </span>
+              <span
+                className={`font-mono text-sm font-bold ${
+                  accent ? "text-[#F97316]" : "text-[#E4E4E7]"
+                }`}
+              >
+                {value}
+              </span>
+              <span className="text-sm text-[#71717A]">{note}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="prose-dark">
+        <p>
+          The two layers do different jobs, and the second one gave us most of the win.
+        </p>
+
+        <p>
+          The graph decides which fields are worth checking. That takes seven down to three.
+          Memoization then decides whether checking them costs anything at all. If none of a
+          field&apos;s inputs changed, the answer comes from the cache.
+        </p>
+
+        <p>
+          That second layer matters because interactions repeat a lot. A user tabbing through a
+          section, fixing a typo, or picking the same dropdown value again asks the same visibility
+          questions again. Once results are cached and invalidation is precise enough to trust them,
+          the common interaction becomes a lookup instead of a computation. In most cases it became a
+          direct cache hit.
+        </p>
+
+        <p>
+          At seven fields none of this matters and the old code is fine. That is why it survived so
+          long. What matters is the ratio, not the count. The old cost grows with the whole form. The
+          new cost grows only with the part you touched, and caching removes most of what is left.
+        </p>
+
+        <p>
+          Now scale that to several hundred fields, where every check also deep clones the form
+          state, and run it on every keystroke. That is the five second freeze. Prune the set, cache
+          the rest, and the same interaction comes back in about fifty milliseconds.
         </p>
 
         <h2>The fix: track what changed</h2>
 
         <p>
-          The shift was from <em>recompute everything on every interaction</em> to{" "}
-          <em>track what changed and recompute only the affected dependency chain</em>.
+          We moved from <em>recompute everything on every interaction</em> to{" "}
+          <em>track what changed and recompute only the affected chain</em>.
+        </p>
+
+        <p>The sentence is short. The implementation was not. But each piece is familiar.</p>
+
+        <p>
+          <strong>Build a dependency graph.</strong> Every visibility condition says which fields
+          depend on which. Written out, those relationships form a directed graph: fields are nodes,
+          and an edge points from a field to anything whose visibility depends on it. Once the graph
+          exists, &quot;what does this change affect&quot; becomes a traversal instead of a guess.
         </p>
 
         <p>
-          That sentence is short and the implementation was not, but the pieces are individually
-          familiar. This is where the data structures course stops being interview trivia.
+          <strong>Order the work.</strong> Dependencies are not flat. Field A can control field B,
+          which controls field C. Checking C before B gives a wrong answer that has to be fixed on a
+          later pass. Topological ordering makes sure everything a field depends on is settled before
+          you check that field. This removes a class of bugs where the form reaches the right state
+          but flickers through wrong ones first.
         </p>
 
         <p>
-          <strong>Build a dependency graph.</strong> Every visibility condition is a statement about
-          which fields depend on which other fields. Written down explicitly, those relationships are
-          a directed graph: nodes are fields, edges point from a field to everything whose visibility
-          depends on it. Once that graph exists, the question &quot;what does this change affect?&quot;
-          stops being a guess and becomes a traversal.
+          <strong>Recompute only what is affected.</strong> With the graph and the ordering in place,
+          a change walks its dependents in a safe order and stops. Unrelated fields are never
+          visited. On a large template that is the difference between several hundred checks and a
+          handful.
         </p>
 
         <p>
-          <strong>Order the work correctly.</strong> Dependencies are not flat. Field A can control
-          field B, which controls field C, and evaluating C before B produces a wrong answer that
-          then has to be fixed on a later pass. Topological ordering guarantees that by the time you
-          evaluate any field, everything it depends on has already settled. Doing this properly is
-          what removes an entire class of subtle correctness bugs where the form eventually reaches
-          the right state but flickers through wrong ones on the way.
+          <strong>Cache the results.</strong> Visibility results are memoized, so a field whose
+          inputs did not change is not checked again at all.
         </p>
 
         <p>
-          <strong>Recompute selectively.</strong> With the graph and the ordering in place, a change
-          to one field walks only its dependents, in dependency-safe order, and stops. Fields with no
-          relationship to what you touched are never visited. On a large template this is the
-          difference between several hundred evaluations and a handful.
+          <strong>Invalidate precisely.</strong> This decides whether the cache helps or hurts.
+          Invalidate too much and you are back to the original problem with extra machinery.
+          Invalidate too little and you show stale visibility, which is worse than slow, because now
+          the form is wrong. The graph gives you the exact boundary. It tells you which cached
+          results the change can reach.
         </p>
 
         <p>
-          <strong>Memoize the results.</strong> Visibility results get cached, so a field whose
-          inputs have not changed does not get evaluated again at all. In the common case, most
-          interactions become a cache hit.
+          Interaction latency dropped by about 99%. Multi-second freezes became responses fast enough
+          to feel instant. On the large templates we profiled, a five second interaction came back in
+          about fifty milliseconds. Completing a large contract went from around thirty minutes to
+          five or ten. The rollout covered 50+ enterprise workspaces.
         </p>
 
         <p>
-          <strong>Invalidate precisely.</strong> This is the part that decides whether the cache is
-          an asset or a liability. Invalidate too broadly and you have rebuilt the original problem
-          with more machinery. Invalidate too narrowly and you serve stale visibility, which is worse
-          than being slow because now the form is simply wrong. The graph is what makes precision
-          possible: it tells you exactly which cached results the change reaches.
+          The feedback I remember best was not a number. Someone in QA said the portal felt
+          &quot;great now, not just good&quot;.
         </p>
 
-        <p>
-          The result was interaction latency down by roughly 99%, from multi-second freezes to
-          responses fast enough that the interface felt immediate again. On the large templates we
-          profiled, a five second interaction came back in about fifty milliseconds. Completion time
-          for a large contract went from around thirty minutes to somewhere between five and ten. The
-          rollout covered 50+ enterprise workspaces.
-        </p>
+        <h2>The argument about cloning mattered more</h2>
+
+        <p>Fixing the slow code was satisfying. What happened next mattered more.</p>
 
         <p>
-          The feedback I remember best was not a number. It was someone in QA saying the portal
-          felt &quot;great now, not just good&quot;.
-        </p>
-
-        <h2>The argument about cloning was the more valuable outcome</h2>
-
-        <p>
-          Fixing the slow thing was satisfying. What happened next mattered more.
-        </p>
-
-        <p>
-          The deep cloning we found in that hot path was not unique to this feature. It was a habit,
-          reached for by default across the codebase, because deep cloning is the safe-feeling
-          choice. So it turned into a wider discussion about how we copy, clone and transform data,
-          and we went through the options properly:
+          The deep cloning we found was not specific to this feature. It was a habit across the
+          codebase, because deep cloning feels safe. So it turned into a wider discussion about how
+          we copy and transform data, and we compared the options properly:
         </p>
 
         <ul>
           <li>
             <strong>Shallow copy</strong> is nearly free, but it only protects the top level. Nested
-            objects stay shared, which is fine when you know the shape and dangerous when you do not.
+            objects stay shared. Fine when you know the shape, risky when you do not.
           </li>
           <li>
             <strong>
               <code>JSON.parse(JSON.stringify(value))</code>
             </strong>{" "}
-            is the reflex answer. It is also the most expensive common option, and it silently
-            destroys data: <code>undefined</code>, <code>Date</code> objects, <code>Map</code>,{" "}
-            <code>Set</code>, functions and circular references either vanish or throw.
+            is the reflex answer. It is also the most expensive common option, and it quietly loses
+            data. <code>undefined</code>, <code>Date</code>, <code>Map</code>, <code>Set</code>,
+            functions and circular references either disappear or throw.
           </li>
           <li>
             <strong>
               Lodash <code>cloneDeep</code>
             </strong>{" "}
-            is correct across far more types and is a reasonable default outside hot paths, but
-            correctness across every type has a cost you pay on every call.
+            handles far more types correctly and is a fine default outside hot paths. Handling every
+            type has a cost you pay on every call.
           </li>
           <li>
-            <strong>Internal deep-clone utilities</strong> can be faster because they are allowed to
-            assume things about our own data shapes. That assumption is exactly what makes them
-            fragile when the shapes change.
+            <strong>Internal deep clone helpers</strong> can be faster because they assume things
+            about our own data. That assumption is what makes them break when the shapes change.
           </li>
           <li>
             <strong>
               Native <code>structuredClone</code>
             </strong>{" "}
-            handles most structured data correctly, is implemented by the browser rather than
-            shipped in your bundle, and is a strong default in modern environments. It still does not
-            clone functions, and it is still not free.
+            handles most structured data correctly, ships with the browser instead of your bundle,
+            and is a good default in modern environments. It still does not clone functions, and it
+            is still not free.
           </li>
         </ul>
 
         <p>
-          The conclusion we landed on was not &quot;use X&quot;. It was that copying is a
-          tradeoff-based decision rather than a default utility choice, and the right answer depends
-          on four things: what correctness guarantees you actually need, what shape the data is, what
-          the performance cost is, and whether the code sits in a hot interaction path. A clone that
-          is perfectly reasonable in a form submit handler can be indefensible inside a keystroke
-          handler.
+          We did not conclude &quot;use X&quot;. We concluded that copying is a tradeoff, not a
+          default utility choice. The right answer depends on four things: what correctness you need,
+          what shape the data is, what it costs, and whether the code runs in a hot path. A clone
+          that is fine in a submit handler can be a bad idea inside a keystroke handler.
         </p>
 
-        <h2>What generalises</h2>
-
-        <p>
-          Stripped of the specifics, these are the parts I have carried into other work:
-        </p>
+        <h2>What I took from it</h2>
 
         <ul>
           <li>
-            Deep cloning in hot paths gets expensive at scale, and the cost is invisible until the
-            data is large enough.
+            Deep cloning in hot paths gets expensive at scale, and the cost stays invisible until the
+            data is big.
           </li>
           <li>
-            Full recomputation is simpler to write and reason about. Dependency-aware recomputation
-            is what actually scales.
+            Full recomputation is simpler to write. Dependency aware recomputation is what scales.
           </li>
           <li>
-            Caching only helps if invalidation is precise. Imprecise invalidation gives you the old
-            performance with new complexity, or correctness bugs.
+            Caching only helps when invalidation is precise. Imprecise invalidation gives you the old
+            speed with new complexity, or correctness bugs.
           </li>
           <li>
-            Frontend debugging has to include main thread and long task analysis. API timings will
-            confidently point you at the wrong thing.
+            Frontend debugging needs main thread and long task analysis. API timings will point you
+            at the wrong thing with confidence.
           </li>
           <li>
             Profile at production scale. Small workflows hide the bottlenecks that matter, and the
-            environments that are cheapest to test in are the ones least likely to show the bug.
+            cheapest environments to test in are the least likely to show them.
           </li>
         </ul>
 
         <p>
-          The broader point is that frontend performance is not only about faster APIs, smaller
-          bundles or fewer renders. Sometimes everything has already arrived and the bottleneck is
-          synchronous computation happening after the data is in hand. That failure mode does not
-          show up in any of the usual dashboards.
+          The wider point is that frontend performance is not only about faster APIs, smaller
+          bundles, or fewer renders. Sometimes the data has already arrived and the bottleneck is
+          synchronous work happening after it. That failure does not show up on the usual dashboards.
         </p>
 
         <p>
-          And the fix that lasts is not the one that replaces a slow function with a fast one. It is
-          the one that leaves behind better debugging habits, a real discussion about tradeoffs, and
-          enough context that the next person working in that part of the codebase does not have to
-          rediscover all of it.
+          And the fix that lasts is not the one that swaps a slow function for a fast one. It is the
+          one that leaves behind better debugging habits, a real discussion about tradeoffs, and
+          enough context that the next person does not have to work it all out again.
         </p>
 
         <p>
-          Graphs, topological ordering and memoization are not interview questions. They are what a
-          form does when it gets big enough.
+          Graphs, topological ordering and memoization are not just interview topics. They are what a
+          form needs once it gets big enough.
+        </p>
+
+        <hr />
+
+        <p className="text-sm text-[#71717A]">
+          This article expands on two posts I wrote while the work was fresh:{" "}
+          <a
+            href="https://www.linkedin.com/posts/anuragn091_frontend-performance-webdevelopment-activity-7405513352027832320-YpA0"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            on using graphs and caching in the UI
+          </a>{" "}
+          and{" "}
+          <a
+            href="https://www.linkedin.com/posts/anuragn091_frontendperformance-webperformance-javascript-activity-7459486214455468032-vSfw"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            on debugging the freeze itself
+          </a>
+          .
         </p>
       </div>
     </BlogPostLayout>
