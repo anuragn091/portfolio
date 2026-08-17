@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Cursor from "@/components/cursor";
 import { Analytics } from "@vercel/analytics/next";
+import GoogleAnalytics from "@/components/google-analytics";
 
 export const metadata: Metadata = {
   title: {
@@ -80,6 +81,7 @@ export default function RootLayout({
         <Cursor />
         {children}
         <Analytics />
+        <GoogleAnalytics />
       </body>
     </html>
   );
