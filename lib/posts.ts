@@ -39,16 +39,6 @@ export const posts: ExternalPost[] = [
     source: "medium",
   },
   {
-    title: "Frontend is Not Just Changing Button Colors: Real DSA in Production",
-    summary:
-      "How I used dependency graphs, BFS, topological ordering, and memoization to fix a multi-second UI lag at SpotDraft. The DSA concepts from interview prep have very real applications in frontend engineering.",
-    date: "2024-09-10",
-    url: "https://www.linkedin.com/feed/update/urn:li:activity:7405513352027832320/",
-    tags: ["Performance", "DSA", "Frontend"],
-    readingTime: 3,
-    source: "linkedin",
-  },
-  {
     title: "Setting Up Your Custom Email for Free",
     summary:
       "A step-by-step guide to getting a professional custom email address without paying for a plan. Because me@anuragnigam.in hits different than gmail.",
