@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { posts } from "@/lib/posts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://anuragnigam.in";
+  const baseUrl = "https://www.anuragnigam.in";
   const latestPostDate = new Date(
     Math.max(...posts.map((post) => new Date(post.date).getTime())),
   );

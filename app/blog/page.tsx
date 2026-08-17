@@ -12,9 +12,9 @@ export const metadata: Metadata = {
     title: "Blog | Anurag Nigam",
     description: "Writing about engineering, markets, and things I am building.",
     type: "website",
-    url: "https://anuragnigam.in/blog",
+    url: "https://www.anuragnigam.in/blog",
     siteName: "Anurag Nigam",
-    images: [{ url: "https://anuragnigam.in/logo.png", width: 1200, height: 630, alt: "Anurag Nigam - Blog" }],
+    images: [{ url: "https://www.anuragnigam.in/logo.png", width: 1200, height: 630, alt: "Anurag Nigam - Blog" }],
   },
   twitter: {
     card: "summary_large_image",
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     creator: "@anuragnigam_",
     title: "Blog | Anurag Nigam",
     description: "Writing about engineering, markets, and things I am building.",
-    images: ["https://anuragnigam.in/logo.png"],
+    images: ["https://www.anuragnigam.in/logo.png"],
   },
   alternates: { canonical: "/blog" },
 };
@@ -33,19 +33,19 @@ export default function BlogPage() {
     "@type": "CollectionPage",
     name: "Anurag Nigam's Blog",
     description: "Writing about engineering, markets, and things I am building.",
-    url: "https://anuragnigam.in/blog",
+    url: "https://www.anuragnigam.in/blog",
     author: {
       "@type": "Person",
       "@id": AUTHOR_ID,
       name: "Anurag Nigam",
-      url: "https://anuragnigam.in",
+      url: "https://www.anuragnigam.in",
     },
     hasPart: posts
       .filter((post) => post.source === "native")
       .map((post) => ({
         "@type": "BlogPosting",
         headline: post.title,
-        url: `https://anuragnigam.in${post.url}`,
+        url: `https://www.anuragnigam.in${post.url}`,
         datePublished: post.date,
       })),
   };

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-export const SITE_URL = "https://anuragnigam.in";
+export const SITE_URL = "https://www.anuragnigam.in";
 export const AUTHOR_ID = `${SITE_URL}/#person`;
 
 export interface BlogPostConfig {

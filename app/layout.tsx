@@ -35,18 +35,18 @@ export const metadata: Metadata = {
     "India",
     "Portfolio",
   ],
-  authors: [{ name: "Anurag Nigam", url: "https://anuragnigam.in" }],
-  metadataBase: new URL("https://anuragnigam.in"),
+  authors: [{ name: "Anurag Nigam", url: "https://www.anuragnigam.in" }],
+  metadataBase: new URL("https://www.anuragnigam.in"),
   openGraph: {
     type: "website",
-    url: "https://anuragnigam.in",
+    url: "https://www.anuragnigam.in",
     title: "Anurag Nigam | SDE II at SpotDraft | AI & Software Engineer",
     description:
       "Anurag Nigam is a Software Development Engineer II at SpotDraft in Bengaluru with 4+ years of experience building scalable web systems and AI-powered products.",
     siteName: "Anurag Nigam",
     images: [
       {
-        url: "https://anuragnigam.in/logo.png",
+        url: "https://www.anuragnigam.in/logo.png",
         width: 1200,
         height: 630,
         alt: "Anurag Nigam - SDE II at SpotDraft and AI & Software Engineer",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: "Anurag Nigam | SDE II at SpotDraft | AI & Software Engineer",
     description:
       "Anurag Nigam is a Software Development Engineer II at SpotDraft in Bengaluru with 4+ years of experience building scalable web systems and AI-powered products.",
-    images: ["https://anuragnigam.in/logo.png"],
+    images: ["https://www.anuragnigam.in/logo.png"],
   },
   robots: { index: true, follow: true },
 };
