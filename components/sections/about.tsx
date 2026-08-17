@@ -39,9 +39,11 @@ export default function About() {
               <Image
                 src="/anurag-nigam-software-engineer.jpg"
                 alt="Anurag Nigam, SDE II at SpotDraft in Bengaluru"
-                width={72}
-                height={72}
-                className="rounded-2xl object-cover border border-white/10"
+                width={144}
+                height={144}
+                quality={85}
+                loading="eager"
+                className="h-[72px] w-[72px] rounded-2xl object-cover border border-white/10"
               />
               <div>
                 <p className="text-white font-bold text-lg leading-tight">Anurag Nigam</p>
