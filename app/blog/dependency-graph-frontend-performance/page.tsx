@@ -286,6 +286,43 @@ export default function DependencyGraphPerformancePost() {
           &quot;great now, not just good&quot;.
         </p>
 
+        <h2>This is not a framework problem</h2>
+
+        <p>
+          It is tempting to read this as a quirk of one codebase or one framework. It is not. The
+          shape of the bug shows up anywhere a UI computes derived state.
+        </p>
+
+        <p>
+          React has the same failure mode with different names. A <code>useMemo</code> with a
+          dependency array that is too broad recomputes when nothing meaningful changed. A context
+          value that gets a new identity on every render pushes updates into children that had no
+          reason to care. <code>React.memo</code> only helps when the props it compares are stable,
+          which is the same precision problem as cache invalidation. I wrote about a related version
+          of this in{" "}
+          <a
+            href="https://medium.com/@anuraga091/reacts-diffing-algorithm-keys-and-why-should-we-not-use-index-as-key-394fe5c4d0a0"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            how React&apos;s diffing algorithm uses keys
+          </a>
+          , where an unstable key makes the reconciler redo work it could have skipped.
+        </p>
+
+        <p>
+          The framework decides how rendering is scheduled. It does not decide whether your own
+          computation knows what changed. That part stays your responsibility no matter what you
+          build in.
+        </p>
+
+        <p>
+          Frameworks built on signals make this explicit, because dependency tracking is the model
+          rather than something you bolt on afterwards. If you are not using one and your derived
+          state gets complicated enough, you tend to end up building a small version of it yourself.
+          That is effectively what we did.
+        </p>
+
         <h2>The argument about cloning mattered more</h2>
 
         <p>Fixing the slow code was satisfying. What happened next mattered more.</p>

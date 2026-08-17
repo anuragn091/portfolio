@@ -29,6 +29,9 @@ export const nativeBlogPosts = {
     readingTime: 8,
     keywords: [
       "frontend performance optimization",
+      "react performance optimization",
+      "useMemo dependency array",
+      "react memo re-render",
       "angular performance optimization",
       "angular form performance",
       "dependency graph frontend",
