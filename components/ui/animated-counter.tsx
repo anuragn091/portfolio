@@ -20,10 +20,17 @@ export default function AnimatedCounter({
   duration = 1800,
   className,
 }: AnimatedCounterProps) {
-  const [count, setCount] = useState(from);
+  // Starts at the final value so the server-rendered HTML carries the real
+  // number for crawlers; the client resets to `from` after hydration.
+  const [count, setCount] = useState(to);
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
   const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    setCount(from);
+  }, [from]);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;

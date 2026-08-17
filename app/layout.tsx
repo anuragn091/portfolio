@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Cursor from "@/components/cursor";
 import { Analytics } from "@vercel/analytics/next";
-import { profilePageSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   title: {
@@ -10,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s | Anurag Nigam",
   },
   description:
-    "Anurag Nigam is a Software Development Engineer II at SpotDraft in Bengaluru, India, with 4+ years of experience building scalable web systems, AI agents, and AI-powered products using Angular, React, Next.js, TypeScript, and LLMs.",
+    "Anurag Nigam is an SDE II at SpotDraft in Bengaluru, building scalable web systems, AI agents, and high-performance products with Angular and React.",
   keywords: [
     "Anurag Nigam",
     "Software Engineer",
@@ -76,10 +75,6 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
-        />
       </head>
       <body className="bg-[#09090B] text-[#F4F4F5] font-sans antialiased">
         <Cursor />

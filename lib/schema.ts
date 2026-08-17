@@ -15,6 +15,19 @@ export interface BlogPostConfig {
   keywords?: string[];
 }
 
+export const PROFILE_IMAGE = `${SITE_URL}/anurag-nigam-software-engineer.jpg`;
+
+export const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  url: `${SITE_URL}/`,
+  name: "Anurag Nigam",
+  alternateName: "anuragnigam.in",
+  inLanguage: "en",
+  publisher: { "@id": AUTHOR_ID },
+};
+
 export const profilePageSchema = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
@@ -24,8 +37,9 @@ export const profilePageSchema = {
     "@type": "Person",
     "@id": AUTHOR_ID,
     name: "Anurag Nigam",
+    alternateName: "Anurag Nigam SpotDraft",
     url: `${SITE_URL}/`,
-    image: `${SITE_URL}/avatar.png`,
+    image: PROFILE_IMAGE,
     description:
       "Software Development Engineer II at SpotDraft with 4+ years of experience building software and AI products. Based in Bengaluru, India.",
     jobTitle: "Software Development Engineer II",
@@ -45,6 +59,7 @@ export const profilePageSchema = {
       "https://www.linkedin.com/in/anuragn091/",
       "https://peerlist.io/anuragnigam",
       "https://twitter.com/anuragnigam_",
+      "https://medium.com/@anuraga091",
     ],
     knowsAbout: [
       "Software Engineering",

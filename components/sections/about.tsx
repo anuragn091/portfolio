@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { fadeUp, stagger, viewportConfig } from "@/lib/motion";
 import SectionHeading from "@/components/ui/section-heading";
 import AnimatedCounter from "@/components/ui/animated-counter";
+import Image from "next/image";
 
 const stats = [
   { value: 4, suffix: "+", label: "Years experience", prefix: "" },
@@ -28,6 +29,28 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left: text */}
           <div>
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportConfig}
+              className="flex items-center gap-4 mb-8"
+            >
+              <Image
+                src="/anurag-nigam-software-engineer.jpg"
+                alt="Anurag Nigam, SDE II at SpotDraft in Bengaluru"
+                width={72}
+                height={72}
+                className="rounded-2xl object-cover border border-white/10"
+              />
+              <div>
+                <p className="text-white font-bold text-lg leading-tight">Anurag Nigam</p>
+                <p className="text-[#71717A] text-sm mt-0.5">
+                  Software Development Engineer II at SpotDraft, Bengaluru
+                </p>
+              </div>
+            </motion.div>
+
             <SectionHeading
               eyebrow="About"
               title="Engineering with craft and conviction"

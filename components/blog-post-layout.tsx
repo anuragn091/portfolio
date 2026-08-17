@@ -84,8 +84,8 @@ export default function BlogPostLayout({
         <section className="mt-16 border-t border-white/[0.06] pt-8" aria-label="About the author">
           <div className="flex items-start gap-4">
             <Image
-              src="/avatar.png"
-              alt="Anurag Nigam"
+              src="/anurag-nigam-software-engineer.jpg"
+              alt="Anurag Nigam, SDE II at SpotDraft in Bengaluru"
               width={64}
               height={64}
               className="h-16 w-16 rounded-full object-cover"

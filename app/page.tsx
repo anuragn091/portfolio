@@ -7,6 +7,7 @@ import Projects from "@/components/sections/projects";
 import Skills from "@/components/sections/skills";
 import Writing from "@/components/sections/writing";
 import Contact from "@/components/sections/contact";
+import { profilePageSchema, websiteSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
   alternates: {
@@ -17,6 +18,14 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(profilePageSchema) }}
+      />
       <Nav />
       <main>
         <Hero />
