@@ -15,6 +15,11 @@ const nextConfig = {
   async redirects() {
     return [
       { source: "/lander", destination: "/", permanent: true },
+      {
+        source: "/blog/angular-form-latency-5s-to-50ms",
+        destination: "/blog/dependency-graph-frontend-performance",
+        permanent: true,
+      },
     ];
   },
 };

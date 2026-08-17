@@ -9,38 +9,40 @@ export interface NativeBlogPost extends BlogPostConfig {
 }
 
 export const nativeBlogPosts = {
-  angularFormLatency: {
-    title: "How I Reduced an Angular Form's Latency From 5 Seconds to 50 Milliseconds",
+  dependencyGraphPerformance: {
+    title: "From 5 Seconds to 50 Milliseconds: How a Dependency Graph Fixed a Slow Frontend",
     description:
       "A form with hundreds of conditional fields froze for seconds on every keystroke. It looked like API latency. Profiling said otherwise.",
     twitterDescription:
       "A form with hundreds of conditional fields froze on every keystroke. It looked like API latency. It was a dependency problem.",
     summary:
       "A contract form with hundreds of conditional fields froze for seconds on every keystroke. It looked like API latency, but the data had already loaded and the main thread was blocked. Here is how dependency-aware recomputation fixed it, and what it taught us about cloning in hot paths.",
-    slug: "angular-form-latency-5s-to-50ms",
-    image: "/blog-angular-form-latency.png",
+    slug: "dependency-graph-frontend-performance",
+    image: "/blog-dependency-graph-performance.png",
     imageAlt:
       "Dependency graph showing only the affected chain being recomputed, reducing latency from 5s to 50ms",
     heroAlt:
       "Dependency-aware recomputation: only the affected chain is recomputed, the rest is skipped",
     publishedAt: "2026-08-17T00:00:00+05:30",
     date: "2026-08-17",
-    tags: ["Performance", "Angular", "DSA"],
+    tags: ["Performance", "Frontend", "DSA"],
     readingTime: 8,
     keywords: [
+      "frontend performance optimization",
       "angular performance optimization",
-      "frontend performance",
+      "angular form performance",
       "dependency graph frontend",
+      "web performance debugging",
+      "javascript performance profiling",
+      "main thread blocking",
+      "long tasks",
       "topological sort javascript",
       "memoization",
       "cache invalidation",
       "structuredClone",
       "deep clone performance",
-      "main thread blocking",
-      "long tasks",
-      "javascript performance profiling",
       "conditional form fields",
-      "web performance debugging",
+      "ui performance at scale",
     ],
   },
   articulateCoinFlip: {

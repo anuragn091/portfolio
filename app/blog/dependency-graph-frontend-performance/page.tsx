@@ -2,11 +2,11 @@ import BlogPostLayout from "@/components/blog-post-layout";
 import { nativeBlogPosts } from "@/lib/blog-posts";
 import { createBlogPostMetadata } from "@/lib/schema";
 
-const post = nativeBlogPosts.angularFormLatency;
+const post = nativeBlogPosts.dependencyGraphPerformance;
 
 export const metadata = createBlogPostMetadata(post);
 
-export default function AngularFormLatencyPost() {
+export default function DependencyGraphPerformancePost() {
   return (
     <BlogPostLayout post={post}>
       <div className="prose-dark">
